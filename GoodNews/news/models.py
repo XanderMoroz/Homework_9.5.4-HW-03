@@ -39,6 +39,7 @@ class Category(models.Model):
     - название категории. Поле должно быть уникальным (параметр unique = True).
     '''
     category_name = models.CharField(max_length=256, unique=True)
+    subscribers = models.ManyToManyField(User, through='UserCategory')
 
     def __str__(self):
         return f'{self.category_name}'
@@ -109,7 +110,6 @@ class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
-
 class Comment(models.Model):
     '''
     Под каждой новостью/статьёй можно оставлять комментарии, поэтому необходимо организовать их способ хранения тоже.
@@ -139,3 +139,7 @@ class Comment(models.Model):
         '''
         self.comment_rating -= 1
         self.save()
+
+class UserCategory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='user_category')

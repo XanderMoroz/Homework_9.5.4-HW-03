@@ -3,8 +3,8 @@ from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.views.generic.edit import CreateView
-from .forms import PostForm
+from django.views.generic.edit import CreateView, FormMixin
+from .forms import PostForm,
 from .models import Post, Category  # импорт нашей модели
 from .filters import PostFilter  # импорт нашего фильтра
 
