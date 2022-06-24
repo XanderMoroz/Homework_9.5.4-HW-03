@@ -44,6 +44,12 @@ class Category(models.Model):
     def __str__(self):
         return f'{self.category_name}'
 
+    def get_subscribers_emails(self):
+        result = set()
+        for user in self.subscribers.all():
+            result.add(user.email)
+        return result
+
 class Post(models.Model):
     '''
     Эта модель должна содержать в себе статьи и новости, которые создают пользователи.
