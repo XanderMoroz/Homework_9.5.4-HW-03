@@ -49,8 +49,10 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    # ... позволяет аутентифицироваться через Google account:
+    # ... позволяет аутентифицироваться через Google account(d8)
     'allauth.socialaccount.providers.google',
+    # модуль для переодической рассылки (d9.4)
+    'django_apscheduler',
 
 ]
 
@@ -182,3 +184,9 @@ EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + "@yandex.ru"
 
 SERVER_EMAIL = 'GoodNewsObserver@yandex.ru'
+
+# формат даты, которую будет воспринимать наш задачник (вспоминаем модуль по фильтрам)
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+
+# если задача не выполняется за 25 секунд, то она автоматически снимается, можете поставить время побольше, но как правило, это сильно бьёт по производительности сервера
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
