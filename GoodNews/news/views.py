@@ -9,6 +9,7 @@ from django.views.generic.edit import CreateView, FormMixin
 from .forms import PostForm, CategoryForm
 from .models import Post, Category, Author  # импорт нашей модели
 from .filters import PostFilter  # импорт нашего фильтра
+from .signals import check_post_limits
 
 
 class PostList(ListView):
@@ -111,7 +112,6 @@ class PostCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
         initial['author'] = author
         return initial
 
-    """
     def post(self, request, *args, **kwargs):
         new_post = Post(
             post_type=request.POST['post_type'],
@@ -119,9 +119,13 @@ class PostCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
             post_title=request.POST['post_title'],
             author_id=request.POST['author'],
                         )
-        new_post.save()
-        new_post.categories.add(request.POST.get('categories'))
-        
+        if check_post_limits(sender=Post, instance=new_post, **kwargs) < 3:
+            new_post.save()
+            new_post.categories.add(request.POST.get('categories'))
+
+        return redirect('news')
+
+    """
         send_mail(
             subject=f'"Здравствуйте, {new_post.author.user} Новая статья в твоём любимом разделе!"',
             # сообщение с кратким описанием проблемы
@@ -129,8 +133,9 @@ class PostCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
             # здесь указываете почту, с которой будете отправлять (об этом попозже)
             from_email='GoodNewsObserver@yandex.ru',
             recipient_list=['GoodNewsObserver@yandex.ru']) 
-        return redirect('add')"""
-""""""
+        return redirect('add')
+    """
+
 class PostUpdateView(UpdateView, LoginRequiredMixin, PermissionRequiredMixin):
     """
     Класс представления для редактирования статьи.
@@ -179,7 +184,7 @@ def unsubscribe(request, **kwargs):
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
-class CategoriesSubsription(LoginRequiredMixin, ListView, FormMixin):
+class CategoriesSubscription(LoginRequiredMixin, ListView, FormMixin):
     model = Category
     template_name = 'news/subscription.html'
     context_object_name = 'subscription'
