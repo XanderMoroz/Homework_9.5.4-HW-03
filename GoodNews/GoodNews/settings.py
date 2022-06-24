@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     # подключаем джанго фильтры
     'django_filters',
     # наши приложения
-    'news',
+    'news.apps.NewsConfig',
     'sign',
     'protect',
     # встроенное приложение для аутентификации из модуля django-allauth
@@ -178,7 +178,7 @@ EMAIL_HOST_PASSWORD = '12345qq67890'
 # Яндекс использует ssl, подробнее почитайте. Включать его здесь надо обязательно
 EMAIL_USE_SSL = True
 # здесь указываем уже свою ПОЛНУЮ почту, с которой будут отправляться письма
-#DEFAULT_FROM_EMAIL = 'GoodNewsObserver@yandex.ru'
+
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + "@yandex.ru"
 
 SERVER_EMAIL = 'GoodNewsObserver@yandex.ru'
