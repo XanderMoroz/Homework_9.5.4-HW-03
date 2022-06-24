@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from .views import PostList, PostDetail, Search, PostCreateView, PostDeleteView, PostUpdateView, subscribe, unsubscribe, \
-    CategoriesSubsription
+    CategoriesSubscription
 
 urlpatterns = [
     # path — означает путь.
@@ -36,5 +36,5 @@ urlpatterns = [
 
     path('subscribe/<int:pk>', subscribe, name='subscribe'),
     path('unsubscribe/<int:pk>', unsubscribe, name='unsubscribe'),
-    path('subscription/', CategoriesSubsription.as_view(), name='subscription')
+    path('subscription/', CategoriesSubscription.as_view(), name='subscription')
 ]
