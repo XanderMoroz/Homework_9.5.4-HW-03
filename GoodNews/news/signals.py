@@ -28,5 +28,5 @@ def notify_subscribers(sender, instance, action, **kwargs):
 
 @receiver(pre_save, sender=Post)
 def check_post_limits(sender, instance, **kwargs):
-    today_posts = Post.objects.filter(time_in__date=datetime.datetime.now().date())
+    today_posts = Post.objects.filter(creation_date=datetime.now().date())
     return len(today_posts)
